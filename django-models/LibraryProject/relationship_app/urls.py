@@ -20,3 +20,15 @@ urlpatterns = [
     path('edit-book/<int:pk>/', views.edit_book, name='edit_book'),
     path('delete-book/<int:pk>/', views.delete_book, name='delete_book'),
 ]
+
+
+from django.urls import path
+from . import views
+
+urlpatterns = [
+    path('login/', views.login_view, name='login'),
+    path('logout/', views.logout_view, name='logout'),
+    path('register/', views.register_view, name='register'),
+    # Example home page URL
+    path('', views.list_books, name='home'),  
+]
