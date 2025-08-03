@@ -132,6 +132,9 @@ AUTH_USER_MODEL = 'bookshelf.CustomUser'
 
 DEBUG = True  
 
+
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+
 # Secure cookie settings
 CSRF_COOKIE_SECURE = False
 SESSION_COOKIE_SECURE = False
