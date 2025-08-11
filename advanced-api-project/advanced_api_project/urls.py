@@ -24,14 +24,17 @@ urlpatterns = [
 from django.contrib import admin
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
+from rest_framework.authtoken.views import obtain_auth_token
 from api.views import AuthorViewSet, BookViewSet
 
-# Create a router and register our ViewSets
+# Create router and register viewsets
 router = DefaultRouter()
 router.register(r'authors', AuthorViewSet)
 router.register(r'books', BookViewSet)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('api/', include(router.urls)),  # All API endpoints will start with /api/
+    path('api/', include(router.urls)),         # Registers /api/authors/ and /api/books/
+    path('api-token-auth/', obtain_auth_token), # Token authentication endpoint
 ]
+
