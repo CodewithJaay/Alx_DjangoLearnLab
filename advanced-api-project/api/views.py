@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from rest_framework import viewsets, generics, filters
+from rest_framework import generics
 from rest_framework.permissions import IsAuthenticatedOrReadOnly, IsAuthenticated
 from django_filters import rest_framework 
 from django_filters.rest_framework import DjangoFilterBackend
