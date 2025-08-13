@@ -1,6 +1,7 @@
 from django.shortcuts import render
-from rest_framework import viewsets, generics
+from rest_framework import viewsets, generics, filters
 from rest_framework.permissions import IsAuthenticatedOrReadOnly, IsAuthenticated
+from django_filters.rest_framework import DjangoFilterBackend
 from .models import Author, Book
 from .serializers import AuthorSerializer, BookSerializer
 
@@ -31,13 +32,27 @@ class BookViewSet(viewsets.ModelViewSet):
 
 class BookListView(generics.ListAPIView):
     """
-    GET: Returns a list of all books.
+    GET: Returns a list of all books with filtering, searching, and ordering.
     Public access for reading.
+    
+    Examples:
+    - Filter: /api/books/?author=1
+    - Search: /api/books/?search=Python
+    - Order: /api/books/?ordering=-publication_year
     """
     queryset = Book.objects.all()
     serializer_class = BookSerializer
     permission_classes = [IsAuthenticatedOrReadOnly]
 
+    filter_backends = [
+        DjangoFilterBackend,
+        filters.SearchFilter,
+        filters.OrderingFilter
+    ]
+    filterset_fields = ['title', 'author', 'publication_year']
+    search_fields = ['title', 'author__name']  # author__name for related model search
+    ordering_fields = ['title', 'publication_year']
+    ordering = ['title']
 
 class BookDetailView(generics.RetrieveAPIView):
     """
@@ -77,3 +92,7 @@ class BookDeleteView(generics.DestroyAPIView):
     queryset = Book.objects.all()
     serializer_class = BookSerializer
     permission_classes = [IsAuthenticated]
+
+
+
+
