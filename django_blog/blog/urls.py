@@ -4,11 +4,16 @@ from django.contrib.auth import views as auth_views
 
 urlpatterns = [
     path('', views.home, name='home'),
-    path('posts/', views.posts, name='posts'),
+    
+    # Post CRUD URLs
+    path('posts/', views.PostListView.as_view(), name='post_list'),
+    path('posts/<int:pk>/', views.PostDetailView.as_view(), name='post_detail'),
+    path('posts/new/', views.PostCreateView.as_view(), name='post_create'),
+    path('posts/<int:pk>/edit/', views.PostUpdateView.as_view(), name='post_edit'),
+    path('posts/<int:pk>/delete/', views.PostDeleteView.as_view(), name='post_delete'),
 
     # Authentication URLs
     path('login/', views.login_view, name='login'),
     path('register/', views.register_view, name='register'),
-    path('logout/', auth_views.LogoutView.as_view(next_page='home'), name='logout'),
-    path('profile/', views.profile_view, name='profile'), 
+    path('logout/', auth_views.LogoutView.as_view(next_page='home'), name='logout'), 
 ]
