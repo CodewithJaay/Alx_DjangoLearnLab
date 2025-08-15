@@ -1,6 +1,32 @@
 {% extends 'blog/base.html' %}
 {% block title %}Register{% endblock %}
+
 {% block content %}
-<h1>Register Page</h1>
-<p>This is where the registration form will go.</p>
+<h1>Create an Account</h1>
+
+{% if messages %}
+  {% for message in messages %}
+    <p style="color: {% if message.tags == 'error' %}red{% else %}green{% endif %};">
+      {{ message }}
+    </p>
+  {% endfor %}
+{% endif %}
+
+<form method="POST">
+  {% csrf_token %}
+  
+  {% for field in form %}
+    <p>
+      {{ field.label_tag }}<br>
+      {{ field }}
+      {% if field.errors %}
+        <span style="color: red;">{{ field.errors|join:", " }}</span>
+      {% endif %}
+    </p>
+  {% endfor %}
+  
+  <button type="submit">Register</button>
+</form>
+
+<p>Already have an account? <a href="{% url 'login' %}">Login here</a></p>
 {% endblock %}
