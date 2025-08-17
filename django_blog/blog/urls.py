@@ -12,10 +12,10 @@ urlpatterns = [
     path('post/<int:pk>/update/', views.PostUpdateView.as_view(), name='post_update'),
     path('post/<int:pk>/delete/', views.PostDeleteView.as_view(), name='post_delete'),
 
-    # Comment CRUD URLs
-    path('post/<int:pk>/comment/new/', views.CommentCreateView.as_view(), name='comment_create'),
-    path('comment/<int:pk>/update/', views.CommentUpdateView.as_view(), name='comment_update'),
-    path('comment/<int:pk>/delete/', views.CommentDeleteView.as_view(), name='comment_delete'),
+    # Comment CRUD URLs (nested under posts)
+    path('post/<int:post_id>/comments/new/', views.CommentCreateView.as_view(), name='comment_create'),
+    path('post/<int:post_id>/comments/<int:pk>/update/', views.CommentUpdateView.as_view(), name='comment_update'),
+    path('post/<int:post_id>/comments/<int:pk>/delete/', views.CommentDeleteView.as_view(), name='comment_delete'),
 
     # Authentication URLs
     path('login/', views.login_view, name='login'),
