@@ -1,0 +1,20 @@
+{% extends "blog/base.html" %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2>Posts tagged with "{{ tag_name }}"</h2>
+    <hr>
+    {% if posts %}
+        <ul class="list-group">
+            {% for post in posts %}
+                <li class="list-group-item">
+                    <a href="{% url 'post_detail' post.pk %}">{{ post.title }}</a>
+                    <small class="text-muted">by {{ post.author }} on {{ post.published_date|date:"F j, Y" }}</small>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p class="text-muted">No posts available for this tag.</p>
+    {% endif %}
+</div>
+{% endblock %}
