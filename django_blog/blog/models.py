@@ -1,28 +1,20 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.urls import reverse
-
-class Tag(models.Model):
-    name = models.CharField(max_length=50, unique=True)
-
-    class Meta:
-        ordering = ['name']
-
-    def __str__(self):
-        return self.name
+from taggit.managers import TaggableManager   
 
 class Post(models.Model):
     title = models.CharField(max_length=200)
     content = models.TextField()
     published_date = models.DateTimeField(auto_now_add=True)
     author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='posts')
-    tags = models.ManyToManyField(Tag, blank=True, related_name='posts') 
+    tags = TaggableManager()  
 
     def __str__(self):
         return self.title
 
     def get_absolute_url(self):
-        return reverse('post-detail', kwargs={'pk': self.pk})
+        return reverse('post_detail', kwargs={'pk': self.pk})
 
 
 class Comment(models.Model):
@@ -33,7 +25,7 @@ class Comment(models.Model):
     updated_at = models.DateTimeField(auto_now=True)      
 
     class Meta:
-        ordering = ['-created_at']  # newest first
+        ordering = ['-created_at'] 
 
     def __str__(self):
         return f"Comment by {self.author} on {self.post}"
