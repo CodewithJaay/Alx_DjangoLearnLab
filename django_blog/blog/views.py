@@ -10,6 +10,7 @@ from django.db.models import Q
 from .models import Post, Comment
 from taggit.models import Tag
 from .forms import CustomUserCreationForm, PostForm, CommentForm
+from django.contrib.auth.decorators import login_required
 
 
 # BASIC VIEWS 
@@ -155,7 +156,7 @@ class CommentDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
         return self.request.user == comment.author
 
 
-# EARCH VIEW 
+# SEARCH VIEW 
 def search_posts(request):
     query = request.GET.get("q")
     results = []
@@ -173,3 +174,8 @@ def posts_by_tag(request, tag_name):
     tag = get_object_or_404(Tag, name=tag_name)
     posts = tag.posts.all()
     return render(request, "blog/posts_by_tag.html", {"tag": tag, "posts": posts})
+
+# PROFILE VIEW
+@login_required
+def profile_view(request):
+    return render(request, 'blog/profile.html')
