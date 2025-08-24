@@ -64,7 +64,7 @@ class LikePostView(APIView):
             return Response({"error": "You already liked this post."}, status=status.HTTP_400_BAD_REQUEST)
         
         #create like
-         Like.objects.create(user=request.user, post=post)
+         Like.objects.get_or_create(user=request.user, post=post)
 
         # Create a notification for the post author (if not self)
         if post.author != request.user:
