@@ -31,3 +31,16 @@ class CommentViewSet(viewsets.ModelViewSet):
 
     def perform_create(self, serializer):
         serializer.save(author=self.request.user)
+
+class FeedView(generics.ListAPIView):
+    """
+    Returns posts authored by users the current user follows,
+    newest first. Uses global pagination settings.
+    """
+    serializer_class = PostSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get_queryset(self):
+        user = self.request.user
+        following_ids = user.following.values_list('id', flat=True)
+        return Post.objects.filter(author_id__in=following_ids).order_by('-created_at')
